@@ -27,7 +27,6 @@
                                             <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                            <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -43,12 +42,20 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" image="info.circle.fill" catalog="system" id="KxL-Fr-R1J">
                             <color key="tintColor" systemColor="labelColor"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="cart.badge.plus" catalog="system" id="RZW-7q-puK">
-                            <color key="tintColor" systemColor="labelColor"/>
-                            <connections>
-                                <action selector="addNewItem:" destination="HPw-6b-C0r" id="aJR-0h-3UL"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="cart.badge.plus" catalog="system" id="RZW-7q-puK">
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <connections>
+                                    <action selector="addNewItem:" destination="HPw-6b-C0r" id="aJR-0h-3UL"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="trash.fill" catalog="system" id="Nz3-Os-euK">
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <connections>
+                                    <action selector="deleteAllItemsButton:" destination="HPw-6b-C0r" id="Fhh-EC-gJU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oep-OV-lge" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -77,6 +84,7 @@
     <resources>
         <image name="cart.badge.plus" catalog="system" width="128" height="106"/>
         <image name="info.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="trash.fill" catalog="system" width="121" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
