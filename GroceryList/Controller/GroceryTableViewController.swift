@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class GroceryTableViewController: UITableViewController {
-    #warning("app does not update automatically. If you add and run the application again or make any changes they only appear after the run and not immediately. Code is the same as in lesson")
+
 //    var groceries = [String]()
     var groceries = [Grocery]()
     var manageObjectContext: NSManagedObjectContext?
@@ -22,10 +22,13 @@ class GroceryTableViewController: UITableViewController {
         
         
         loadData()
-        
-        
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadData()
+    }
+    
     
     func loadData(){
         let request: NSFetchRequest<Grocery> = Grocery.fetchRequest()
@@ -33,9 +36,9 @@ class GroceryTableViewController: UITableViewController {
         do{
             let result = try manageObjectContext?.fetch(request)
             groceries = result!
-            
+            tableView.reloadData()
         }catch{
-          fatalError("Error in retrieving Grocery Data items")
+            fatalError("Error in retrieving Grocery Data items")
         }
     }
     
@@ -48,22 +51,16 @@ class GroceryTableViewController: UITableViewController {
         }
     loadData()
     }
-#warning ("the for in loop asks to unwrap the optional but I do not understand what there is to do there")
-//    func deleteAllData(entity: String){
-//        let fetchRequest: NSFetchRequest<Grocery> = Grocery.fetchRequest()
-//        fetchRequest.returnsObjectsAsFaults = false
-//
-//        do {
-//            let results = try manageObjectContext?.execute(fetchRequest)
-//            for manageObject in results {
-//                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-//                manageObjectContext?.deletedObjects(managedObjectData)
-//            }
-//
-//        } catch let error as NSError {
-//            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-//        }
-//    }
+    func deleteAllData(){
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Grocery")
+    let request: NSBatchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    do {
+        try manageObjectContext?.execute(request)
+        saveData()
+    } catch let error {
+        print(error.localizedDescription)
+    }
+    }
     
     
     
@@ -99,14 +96,21 @@ class GroceryTableViewController: UITableViewController {
     
     @IBAction func deleteAllItemsButton(_ sender: Any) {
         
-        let alertController = UIAlertController(title: "Delete all", message: "Are you sure you want to delete all items?", preferredStyle: .alert)
-        
-        let deleteActionButton = UIAlertAction(title: "Delete", style: .default) { alertAction in
-            <#code#>
-        }
-        
+   let alertController = UIAlertController(title: "Delete All Grocery Item", message: "Are you sure you want to delete them all?", preferredStyle: .actionSheet)
+ let addActionButton = UIAlertAction(title: "Delete", style: .default) { alertAction in
+     self.deleteAllData()
+     
+ }//addAction
+ 
+ let cancelButton = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+ 
+ alertController.addAction(addActionButton)
+ alertController.addAction(cancelButton)
+ 
+ present(alertController, animated: true, completion: nil)
+ 
     }
-    
+
     
     
     // MARK: - Table view data source
